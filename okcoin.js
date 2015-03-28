@@ -12,8 +12,7 @@ function OKCoin(api_key, secret) {
   var self = this;
 
   var config = {
-    url: 'https://www.okcoin.cn/api',
-    version: 'v1',
+    url: 'https://www.okcoin.com/api/',
     api_key: api_key,
     secret: secret,
     timeoutMS: 18000
@@ -23,17 +22,18 @@ function OKCoin(api_key, secret) {
   * Public methods supported
   */
   function ticker(callback) {
-    var path  = '/' + config.version + '/ticker.do';
+    var path  = '/ticker.do';
     return publicMethod(path, callback);
   }
   
-  function depth(callback) {
-    var path  = '/' + config.version + '/depth.do';
+  //TODO: Implement limit
+  function depth(curCode, callback) {
+    var path  = '/depth.do' + '?symbol=' + curCode + '&ok=1';
     return publicMethod(path, callback);
   }
   
   function trades(callback) {
-    var path  = '/' + config.version + '/trades.do';
+    var path  = '/trades.do';
     return publicMethod(path, callback);
   }
    
@@ -42,13 +42,13 @@ function OKCoin(api_key, secret) {
   * For information on the parameters, check OKCoin website https://www.okcoin.cn/about/rest_api.do
   */
   function userinfo(callback) {
-    var path  = '/' + config.version + '/userinfo.do';
+    var path  = '/userinfo.do';
     var params = {};
     return privateMethod(path, params, callback);
   }
 
   function order_info(symbol, order_id, callback) {
-    var path  = '/' + config.version + '/order_info.do';
+    var path  = '/order_info.do';
     var params = {};
     params.symbol =  symbol;
     params.order_id = order_id;
@@ -56,7 +56,7 @@ function OKCoin(api_key, secret) {
   }
   
   function cancel_order (symbol, order_id, callback) {
-    var path  = '/' + config.version + '/cancel_order.do';
+    var path  = '/cancel_order.do';
     var params = {};
     params.symbol =  symbol;
     params.order_id = order_id;
@@ -64,7 +64,7 @@ function OKCoin(api_key, secret) {
   }
   
   function trade(symbol, type, price, amount, callback) {
-    var path  = '/' + config.version + '/trade.do';
+    var path  = '/trade.do';
     var params = {};
     if (amount) params.amount =  amount;
     if (price) params.price = price;
@@ -74,7 +74,7 @@ function OKCoin(api_key, secret) {
   }
   
   function withdraw(symbol, chargefee, trade_pwd, withdraw_address, withdraw_amount, callback) {
-    var path  = '/' + config.version + '/withdraw.do';
+    var path  = '/withdraw.do';
     var params = {};
     params.chargefee = chargefee;
     params.symbol = symbol;
@@ -85,7 +85,7 @@ function OKCoin(api_key, secret) {
   }
 
   function account_records(symbol, type, current_page, page_length, callback) {
-    var path  = '/' + config.version + '/account_records.do';
+    var path  = '/account_records.do';
     var params = {};
     params.symbol = symbol;
     params.type = type;
